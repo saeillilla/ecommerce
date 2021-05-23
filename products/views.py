@@ -30,7 +30,7 @@ def view_products(request , id):
     print(flag)
     return render(request, 'products/productdetails.html',{'product':obj,'flag':flag})
 
-
+@login_required
 def addCart(request , data):
     u = data.split('_')
     print(u)
@@ -38,6 +38,7 @@ def addCart(request , data):
     obj = Cart(user = request.user , product_id = product , Count = int(u[1]))
     obj.save()
     return redirect('/')
+@login_required
 def cart(request):
     details =[]
     obj = Cart.objects.filter(user = request.user)
@@ -74,5 +75,8 @@ def addWishlist(request,id):
 def removeFromWishlist(request,id):
     product = Product.objects.get( id= id)
     list = Wishlist.objects.filter(user = request.user)
+    for i in list:
+        if i.product_id == product:
+            i.delete()
     url = '/products/viewproduct/'+str(id)+'/'
     return redirect(url)

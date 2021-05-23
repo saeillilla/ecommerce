@@ -45,6 +45,11 @@ div.section > div > input {margin:0;padding-left:5px;font-size:10px;padding-righ
 </style>
   </head>
   <body>
+    <hr>
+<center>
+  <a class="btn btn-warning" href="/">HOME</a>
+</center>
+  <hr>
     <div class="container">
            	<div class="row">
                   <div class="col-xs-4 item-photo">
@@ -91,7 +96,7 @@ div.section > div > input {margin:0;padding-left:5px;font-size:10px;padding-righ
                            <button class="btn btn-success"><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add To Cart</button>
 
                             {% if flag == 'true' %}
-                           <h6><a href="/products/addToWishList/{{ product.id }}/"><span class="glyphicon glyphicon-heart-empty" style="cursor:pointer;"></span> Remove From Wishlist</a></h6>
+                           <h6><a href="/products/removeFromWishlist/{{ product.id }}/"><span class="glyphicon glyphicon-heart-empty" style="cursor:pointer;"></span> Remove From Wishlist</a></h6>
                            {% endif %}
 
                            {% if flag == 'false' %}

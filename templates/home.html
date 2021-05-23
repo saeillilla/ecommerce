@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Balanmarket - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+  .padding {
+  padding: 10rem !important
+}
+
+body {
+  background-color: #f8fafe
+}
+
+.domain-form .form-group {
+  border: 1px solid #9ff0c8;
+  padding: 20px
+}
+
+.domain-form .form-group input {
+  height: 70px !important;
+  border: transparent
+}
+
+.form-control {
+  height: 52px !important;
+  background: #fff !important;
+  color: #3a4348 !important;
+  font-size: 18px;
+  border-radius: 0px;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important
+}
+
+.px-4 {
+  padding-left: 1.5rem !important
+}
+
+.domain-form .form-group .search-domain {
+  background: #22d47b;
+  border: 2px solid #22d47b;
+  color: #fff;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  border-radius: 0
+}
+
+.domain-price span {
+  color: #3a4348;
+  margin: 0 10px
+}
+
+.domain-price span small {
+  color: #24bdc9
+}
+  </style>
+  </head>
+  <body >
+
+<div class="row p-2">
+  <div class="col-sm-8">
+
+
+        <button onclick="home()" type="button" class="btn  btn-lg btn-outline-dark">Home</button>
+        <button onclick="product()" type="button" class="btn  btn-lg btn-outline-dark">Product List</button>
+        <button onclick="cart()" type="button" class="btn  btn-lg btn-outline-dark">Cart</button>
+  </div>
+  <div class="col-sm-4">
+  <div class="float-right">
+    <button class="btn   btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Account
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="/products/wishlist/">Wishlist</a>
+      <a class="dropdown-item" href="/products/sell_products/">My Products</a>
+      <a class="dropdown-item" href="/products/view_orders/">Order</a>
+
+      <a class="dropdown-item" href="/products/addproduct/">Add Product</a>
+
+      <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="row justify-content-center padding">
+    <div class="col-md-8 ftco-animate fadeInUp ftco-animated">
+        <form method="post" class="domain-form"> {% csrf_token %}
+            <div class="form-group d-md-flex"> <input type="text" name='searchstring' class="form-control px-4" placeholder="Search Products here..."> <input type="submit" class="search-domain btn btn-primary px-5" value="Search Products"> </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+function home(){
+  window.open("/","_self")
+}
+
+function product(){
+  window.open("/products/all_products/","_self")
+}
+
+function cart(){
+  window.open("/products/cart/","_self")
+}
+
+
+</script>
+  </body>
+</html>

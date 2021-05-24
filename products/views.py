@@ -80,3 +80,25 @@ def removeFromWishlist(request,id):
             i.delete()
     url = '/products/viewproduct/'+str(id)+'/'
     return redirect(url)
+
+
+def removeFromWishlist1(request,id):
+    product = Product.objects.get( id= id)
+    list = Wishlist.objects.filter(user = request.user)
+    for i in list:
+        if i.product_id == product:
+            i.delete()
+    return redirect('/products/wishlist/')
+
+
+def view_wishlist(request):
+    details =[]
+    flag = 'true'
+    obj = Wishlist.objects.filter(user = request.user)
+    for i in obj:
+        product = Product.objects.get(product_name = i.product_id)
+        s = {'id':product.id,'name':product.product_name, 'image':product.image , 'product_discription':product.product_discription }
+        details.append(s)
+    if len(obj)==0:
+        flag = 'false'
+    return render(request,'products/wishlist.html',{'products':details,'flag':flag})

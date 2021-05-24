@@ -9,8 +9,11 @@ urlpatterns = [
     path('addToWishList/<int:id>/',views.addWishlist ),
     path('removefromcart/<int:id>/',views.removeFromCart ),
     path('removeFromWishlist/<int:id>/',views.removeFromWishlist ),
+    path('removeFromWishlist1/<int:id>/',views.removeFromWishlist1 ),
+
     path('addCart/<data>/',views.addCart),
     path('cart/',views.cart),
+    path('wishlist/',views.view_wishlist),
 
 
 

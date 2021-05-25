@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+eCommerce - Your products
+{% endblock %}
+
+{% block content %}
+{% for i in context %}
+
+<div class="card" style="width: 18rem;">
+    <img
+      src="{{ i.image.url }}"
+      class="card-img-top"
+      alt="..."
+    />
+    <div class="card-body">
+        <h3>{{ i.product_name }}</h3>
+      <p class="card-text">
+     {{ i.product_discription }}
+      </p>
+    </div>
+  </div>
+
+{% endfor %}
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from .models import Product,Cart,Wishlist,Shipping_Adress
 from django.contrib.auth.decorators import login_required
 from .forms import createProduct
@@ -44,6 +44,7 @@ def cart(request):
     obj = Cart.objects.filter(user = request.user)
     for i in obj:
         product = Product.objects.get(product_name = i.product_id)
+        print(product)
         s = {'id':product.id,'name':product.product_name, 'image':product.image , 'product_discription':product.product_discription , 'count':i.Count}
         details.append(s)
 
@@ -100,5 +101,11 @@ def view_wishlist(request):
         s = {'id':product.id,'name':product.product_name, 'image':product.image , 'product_discription':product.product_discription }
         details.append(s)
     if len(obj)==0:
-        flag = 'false'
+        flag = "false"
     return render(request,'products/wishlist.html',{'products':details,'flag':flag})
+
+def myProducts(request):
+    product = Product.objects.filter(user = request.user)
+
+    print(product)
+    return render(request,'products/user_products.html',{'context':product})

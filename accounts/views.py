@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserChangeForm,UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
+from products.models import Product
 # Create your views here.
 def sign_up(request):
     if request.method == 'POST':
@@ -36,6 +37,10 @@ def user_logout(request):
     else:
         logout(request)
     return render(request,'home.html')
+
 def home(request):
+    if request.method == 'POST':
+        obj = Product.objects.filter(product_name = request.POST['searchstring'])
+        return render(request,'products/results.html',{'products':obj})
     print(request.user)
     return render(request, 'home.html')

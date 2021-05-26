@@ -50,6 +50,8 @@ def cart(request):
     print(details)
     return render(request, 'products/cart.html',{'details':details})
 
+
+@login_required
 def removeFromCart(request,id):
     product = Product.objects.get( id= id)
     obj = Cart.objects.filter(product_id = product)
@@ -58,6 +60,7 @@ def removeFromCart(request,id):
             i.delete()
     return redirect('/products/cart/')
 
+@login_required
 def addWishlist(request,id):
     product = Product.objects.get( id= id)
     list = Wishlist.objects.all()
@@ -71,7 +74,7 @@ def addWishlist(request,id):
     url = '/products/viewproduct/'+str(id)+'/'
     return redirect(url)
 
-
+@login_required
 def removeFromWishlist(request,id):
     product = Product.objects.get( id= id)
     list = Wishlist.objects.filter(user = request.user)
@@ -81,7 +84,7 @@ def removeFromWishlist(request,id):
     url = '/products/viewproduct/'+str(id)+'/'
     return redirect(url)
 
-
+@login_required
 def removeFromWishlist1(request,id):
     product = Product.objects.get( id= id)
     list = Wishlist.objects.filter(user = request.user)
@@ -90,7 +93,7 @@ def removeFromWishlist1(request,id):
             i.delete()
     return redirect('/products/wishlist/')
 
-
+@login_required
 def view_wishlist(request):
     details =[]
     flag = 'true'
@@ -103,6 +106,7 @@ def view_wishlist(request):
         flag = "false"
     return render(request,'products/wishlist.html',{'products':details,'flag':flag})
 
+@login_required
 def myProducts(request):
     product = Product.objects.filter(user = request.user)
 
@@ -137,7 +141,7 @@ def checkout(request):
             sum +=temp
         return render(request,'products/checkout.html',{'sum':sum})
 
-
+@login_required
 def payment1(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -159,3 +163,17 @@ def payment1(request):
 @csrf_exempt
 def success(request):
     return render(request, "success.html")
+
+
+def viewProductRequests(request):
+    obj = Product.objects.filter(user = request.user)
+    details = []
+    for i in obj:
+        pre = Cart.objects.filter(product_id = i.id)
+        if len(pre) == 1:
+            adress = Billing_Adress.objects.get(user = pre[0].user)
+            pro = {'cart':pre[0] , 'adress':adress}
+            s = {'product_name':i.product_name,'image':i.image , 'adress':adress, 'count':pre[0].Count}
+            print(s)
+            details.append(s)
+    return render(request,'product_orders.html',{'products':details})

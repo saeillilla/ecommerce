@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Balanmarket - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" href="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -64,6 +65,7 @@ body {
   </head>
   <body >
 
+{% if flag == 'true' %}
 <div class="row p-2">
   <div class="col-sm-8">
 
@@ -80,7 +82,7 @@ body {
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a class="dropdown-item" href="/products/wishlist/">Wishlist</a>
       <a class="dropdown-item" href="/products/sell_products/">My Products</a>
-      <a class="dropdown-item" href="/products/view_orders/">Order</a>
+      {% comment %} <a class="dropdown-item" href="/products/view_orders/">Order</a> {% endcomment %}
 
       <a class="dropdown-item" href="/products/addproduct/">Add Product</a>
 
@@ -89,7 +91,24 @@ body {
   </div>
   </div>
 </div>
+{% endif %}
+{% if flag == 'false' %}
+<div class="row p-2">
+  <div class="col-sm-8">
 
+
+        <button onclick="home()" type="button" class="btn  btn-lg btn-outline-dark">Home</button>
+        <button onclick="product()" type="button" class="btn  btn-lg btn-outline-dark">Product List</button>
+  
+  </div>
+  <div class="col-sm-4">
+  <div class="float-right">
+
+    <a class='btn   btn-outline-dark ' href='/accounts/login/'>Sign In</a>
+  </div>
+  </div>
+</div>
+{% endif %}
 <div class="row justify-content-center padding">
     <div class="col-md-8 ftco-animate fadeInUp ftco-animated">
         <form method="post" class="domain-form"> {% csrf_token %}

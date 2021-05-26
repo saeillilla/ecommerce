@@ -43,4 +43,11 @@ def home(request):
         obj = Product.objects.filter(product_name = request.POST['searchstring'])
         return render(request,'products/results.html',{'products':obj})
     print(request.user)
-    return render(request, 'home.html')
+    if str(request.user) == 'AnonymousUser':
+        flag = 'false'
+    else:
+        flag = 'true'
+
+    print(flag)
+    return render(request, 'home.html',{'flag':flag})
+

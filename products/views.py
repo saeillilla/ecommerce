@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect,HttpResponse
 from .models import Product,Cart,Wishlist,Billing_Adress
 from django.contrib.auth.decorators import login_required
 from .forms import createProduct 
+import razorpay
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 @login_required
@@ -27,13 +29,11 @@ def view_products(request , id):
     for i in list:
         if i.user == request.user:
             flag = 'true'
-    print(flag)
     return render(request, 'products/productdetails.html',{'product':obj,'flag':flag})
 
 @login_required
 def addCart(request , data):
     u = data.split('_')
-    print(u)
     product = Product.objects.get(id = int(u[0]))
     obj = Cart(user = request.user , product_id = product , Count = int(u[1]))
     obj.save()
@@ -44,7 +44,6 @@ def cart(request):
     obj = Cart.objects.filter(user = request.user)
     for i in obj:
         product = Product.objects.get(product_name = i.product_id)
-        print(product)
         s = {'id':product.id,'name':product.product_name, 'image':product.image , 'product_discription':product.product_discription , 'count':i.Count}
         details.append(s)
 
@@ -107,7 +106,6 @@ def view_wishlist(request):
 def myProducts(request):
     product = Product.objects.filter(user = request.user)
 
-    print(product)
     return render(request,'products/user_products.html',{'context':product})
 def checkout(request):
     if request.method == 'POST':
@@ -125,9 +123,39 @@ def checkout(request):
         obj.save()
         return redirect('/')
     obj = Billing_Adress.objects.filter(user = request.user)
-    print(len(obj))
-    flag = 'true'
+    
     if len(obj)==1:
-        flag = 'false'
+        return redirect('/products/payment/')
+        
+    else:
+        print('hello')
+        obj1 = Cart.objects.filter(user = request.user)
+        sum = 0
+        for i in obj1:
+            x = Product.objects.get(product_name = i.product_id)
+            temp = int(x.product_price)*int(i.Count)
+            sum +=temp
+        return render(request,'products/checkout.html',{'sum':sum})
 
-    return render(request,'products/checkout.html',{'flag':flag,'details':obj[0]})
+
+def payment1(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        amount = 50000
+
+        client = razorpay.Client(
+            auth=("rzp_test_vB5NPppo2BB5Mt", "BVrzePf4vi4PHRAPQFV2QU3x"))
+
+        payment = client.order.create({'amount': amount, 'currency': 'INR','payment_capture': '1'})
+    obj = Billing_Adress.objects.filter(user = request.user)
+    obj1 = Cart.objects.filter(user = request.user)
+    sum = 0
+    for i in obj1:
+        x = Product.objects.get(product_name = i.product_id)
+        temp = int(x.product_price)*int(i.Count)
+        sum +=temp
+    return render(request, 'products/checkout1.html',{'details':obj[0],'price':sum})
+
+@csrf_exempt
+def success(request):
+    return render(request, "success.html")

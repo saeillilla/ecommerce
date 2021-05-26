@@ -16,6 +16,9 @@ urlpatterns = [
     path('sell_products/',views.myProducts),
     path('wishlist/',views.view_wishlist),
     path('checkout/',views.checkout),
+    path('payment/',views.payment1),
+    path('success' , views.success , name='success')
+
 
 
 

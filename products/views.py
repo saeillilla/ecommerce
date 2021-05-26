@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
-from .models import Product,Cart,Wishlist,Shipping_Adress
+from .models import Product,Cart,Wishlist,Billing_Adress
 from django.contrib.auth.decorators import login_required
-from .forms import createProduct
+from .forms import createProduct 
 # Create your views here.
 
 @login_required
@@ -109,3 +109,25 @@ def myProducts(request):
 
     print(product)
     return render(request,'products/user_products.html',{'context':product})
+def checkout(request):
+    if request.method == 'POST':
+        firstName = request.POST['firstName']
+        lastName = request.POST['lastName']
+        companyName = request.POST['companyName']
+        house = request.POST['house']
+        adress = request.POST['adress']
+        zipcode = request.POST['zipcode']
+        town = request.POST['town']
+        phone = request.POST['phone']
+        email = request.POST['email11']
+        additionalinformation = request.POST['additionalinformation']
+        obj = Billing_Adress(user = request.user , First_Name =firstName,Last_name = lastName , Company_name = companyName , House = house, Adress = adress,Zip=zipcode,Town =town,Phone =phone,Email = email, Additional_Information =additionalinformation   )
+        obj.save()
+        return redirect('/')
+    obj = Billing_Adress.objects.filter(user = request.user)
+    print(len(obj))
+    flag = 'true'
+    if len(obj)==1:
+        flag = 'false'
+
+    return render(request,'products/checkout.html',{'flag':flag,'details':obj[0]})

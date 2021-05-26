@@ -34,13 +34,17 @@ class Wishlist(models.Model):
     product_id = models.ForeignKey(Product , on_delete = models.CASCADE)
 
 
-class Shipping_Adress(models.Model):
+class Billing_Adress(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    Full_Name = models.CharField(max_length=30)
-    Adress1 = models.TextField(blank=True)
-    Adress2 = models.TextField(blank=True)
-    City = models.CharField(blank=True, max_length=20)
-    State = models.CharField(blank=True, max_length=20)
+    First_Name = models.CharField(max_length=30)
+    Last_name = models.CharField(max_length=30)
+    Company_name = models.CharField(blank=True,max_length=30)
+    House = models.CharField(max_length=30)
+    Adress = models.TextField(blank=True)
     Zip = models.CharField(blank=True, max_length=6)
+    Town = models.CharField(max_length=30)
+    Phone = models.CharField(max_length=10)
+    Email = models.EmailField(max_length=254)
+    Additional_Information = models.TextField(blank=True)
     def __str__(self):
-        return str(self.Full_Name)
+        return str(self.First_Name)
